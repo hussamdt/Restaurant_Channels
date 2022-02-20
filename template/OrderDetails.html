@@ -1,0 +1,57 @@
+<!--           127.0.0.1:8000/app_orders/menu/order-status/<int:pk>/            -->
+
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+        <style>
+            {% include 'static/css/OrderDetails.css' %}
+        </style> 
+{% endblock style %}
+{% block contents %}
+
+
+    <div class='cBBB'>
+        <h3>
+            <div class="left"> table :</div>
+            <div class="right"> {{order.table}} </div>
+        </h3>
+
+        <h3>
+            <div class="left"> time : </div>
+            <div class="right"> {{order.time|date:"h:iA"}} </div>
+        </h3>
+
+        <h3>
+            <div class="left"> order : </div>
+        </h3>
+
+            <div class='cFFF'>     
+                <div >
+                    {% for x in order.order_food_item.all %}
+                        <h3 class='cDDD'>
+                            <div class="right"> {{x.count}} </div>
+                            <div class="left"> {{x.food_item.name}} </div>
+                        </h3>
+                      
+                        <br>
+                    {% endfor %} 
+                </div>
+            </div>
+        <hr>
+    </div>
+
+    <div>
+        <h1 class='cNNN'>your order is being cooked</h1>
+        <p class='cYYY'> please wait 30 minutes </p>
+        <iframe src="https://giphy.com/embed/jRt66GCICGDCvqBnE6" style="display: block;margin: 0 auto;" width="200" height="200" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    </div>
+
+
+
+{% endblock contents %}
+
+{% block script %}
+       <script>
+        {% include 'static/js/OrderDetails.js' %}
+       </script>
+{% endblock script %}

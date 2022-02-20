@@ -1,0 +1,93 @@
+      <!--      127.0.0.1:8000/app_orders/menu/checkout/<int:pk>/           -->
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        {% include 'static/css/checkout.css'   %}
+    </style> 
+{% endblock style %}
+{% block contents %}
+
+<main>
+    <div class="title">
+        <h2> check out</h2>
+        <div class="underline"></div>
+    </div>
+
+    <h2 class='cTTTT'>
+      <a href="{% url 'app_orders:our_menu_after'  pk=checkout.table.number  status='new-order'  order_id=checkout.pk %}"> back to menu </a>
+    </h2>
+
+    <div class="oreder_item">
+        <div class="order_name">food name</div>
+        <div class="order_count">food count</div>
+        <div class="order_item_price">food price</div>
+        <div class="order_total_price">food total price</div>
+    </div>
+
+    {% for x in checkout.order_food_item.all %}
+        <div class="oreder_item">
+            <div class="order_name">{{x.food_item.name}}</div>
+            <div class="order_count">{{x.count}}</div>
+            <div class="order_item_price">{{x.food_item.price}}</div>
+            <div class="order_total_price custom_price">{% widthratio x.food_item.price 1 x.count %}</div>
+            <div class="order_delete">
+                <a href="{% url 'app_orders:delete_order_item' x.pk%}"> <button class="mybutton"> delete</button></a>
+            </div>
+        </div>
+
+        <hr>
+    
+    {% endfor %}
+
+    <h3>Total : <span id="grand_total"></span></h3>
+    <button class="mybutton" id="checkout">check out</button>
+</main>
+
+
+{% endblock contents %}
+
+
+{% block script %}
+    <script  src="//cdn.jsdelivr.net/npm/sweetalert2@10 "></script> 
+    <script>
+        {% include 'static/js/checkout.js'   %}
+    </script>
+    <script>
+        document.getElementById('checkout').onclick = function () {
+    if (total_price == 0) {
+        Swal.fire(
+        'sorry',
+        'You  nremoved all items from  your cart go back to menu and add some food!',
+        'info'
+        )
+    }else{
+            fetch("{% url 'app_orders:confirm_order_by_user' checkout.pk %}", {
+            method: "get", 
+            }).then(res => {
+                console.log("Request complete! response:", res);
+
+
+                
+                chatSocket.onclose = function(e) {
+                    console.error('Chat socket closed unexpectedly');
+                }; 
+                chatSocket.send(JSON.stringify({
+                    'message': 'neworder'
+                }));         
+
+
+
+                window.location.href = "{% url 'app_orders:OrderDetails' checkout.pk %}"
+            });
+
+    }
+
+}
+    </script>
+{% endblock script %}
+
+
+
+

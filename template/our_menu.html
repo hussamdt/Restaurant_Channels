@@ -1,0 +1,157 @@
+<!--           127.0.0.1:8000/app_orders/menu/<int:pk>/<str:status>/<int:order_id>/           -->
+
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+      <style>
+         {% include   'static/css/our_menu.css' %}
+
+          .mix{
+            display : none
+          }
+      </style>
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% endblock style %}
+{% block contents %}
+
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert success">
+          <span class="closebtn" id="closebtn">&times;</span>  
+          <strong>Success!</strong> {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="cart">
+      <!-- cart -->
+        {% if 'new-order' in request.get_full_path   %}
+        <a href='' id="cart">
+          <span class="dot"></span>
+          <i class="fas fa-shopping-cart fa-2x"></i>
+        </a>
+        {% else %}
+        <a href="#" id='cart_disapled'>
+            <i class="fas fa-shopping-cart fa-2x"></i>
+        </a>  
+        {% endif %}
+    </div>
+    <section class="menu">
+
+      <!-- title -->
+      <div class="title">
+        <h2>our menu</h2>
+        <div class="underline"></div>
+      </div>
+
+
+      <div class="category row text-center">
+        <span class="column filter" data-filter="all">all</span>
+        {% for x in our_menu.Table_Menu.return_choices_values %}
+
+            <span class="column filter" data-filter=".{{x}}">{{x}}</span>
+        {% endfor %}
+          
+          
+
+      
+      </div>
+
+      <br>
+      <br>
+      <br>
+      
+
+      <!-- menu items -->
+      <div class="section-center">
+        {% for x in our_menu.Table_Menu.menu_items.all %}
+            <article class="menu-item  all mix {{x.get_category_type_display }}" >
+            <img src="/media/{{x.image}}" alt="menu item" class="photo" />
+            <div class="item-info">
+                <header>
+                <h4>{{x.name}}</h4>
+                <h4 class="price">${{x.price}}</h4>
+                </header>
+                <p class="item-text">
+                {{x.description}}
+                </p>
+                {% if not x.available %}
+                  <br>
+                  <br>
+                  <h4 style="color:#f00">sold out</h4>
+                {% else %}
+                <form action="{% url 'app_orders:add_order' %}" method="POST" style="display: none;">
+                  {% csrf_token %}
+                  <select name="count" class="count" required style="width: 50%;display: inline-block;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                  </select>
+                  <button style="display: inline-block;">order</button>
+                  
+                  {% if 'new-order' in request.get_full_path   %}
+                    <input type="text" name='order_id' style="display : none" class="order_id" >
+                  {% endif %}
+                  
+
+                  <input type="text" style="display : none" name='table'  value={{ our_menu.number}}>
+                  <input type="text" style="display : none" name='food_number'  value={{ x.id}}>
+                </form>
+
+                <button class="mybutton">order</button>
+                {% endif %}
+            </div>
+            </article>
+
+
+        {% endfor %}
+      </div>
+    </section> 
+
+{% endblock contents %}
+
+
+{% block script %}
+    <script  src="//cdn.jsdelivr.net/npm/sweetalert2@10 "></script> 
+    <script>
+            {% include 'static/js/our_menu.js' %}
+            {% if 'new-order' in request.get_full_path   %}
+            var a = document.getElementById('cart')
+            a.href =  "{% url 'app_orders:checkout' pk=0 %}".replace('0', lastSegment);
+            {% else %}
+            var a = document.getElementById('cart_disapled')
+            a.onclick = function(){
+              Swal.fire(
+                'sorry',
+                'You did not add any item to your cart !',
+                'info'
+              )
+            }
+
+            {% endif %}
+  </script>
+
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+  <script>
+    {% include   'static/js/jquery.mixitup.js' %}
+  </script>
+
+  <script>
+    $(".section-center").mixItUp()
+  </script>
+
+
+{% endblock script %}

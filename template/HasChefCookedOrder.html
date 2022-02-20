@@ -1,0 +1,26 @@
+    <!--        127.0.0.1:8000/app_orders/menu/chief-cook-order-update/<int:pk>/            -->
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+        <style>
+            {% include 'static/css/HasChefCookedOrder.css' %}
+        </style>
+{% endblock style %}
+{% block contents %}
+
+
+    <form action="" onsubmit="myFunction()" method="POST" style="text-align:center;margin-top:5rem">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="mybutton">submit</button> 
+    </form>
+
+
+
+{% endblock contents %}
+
+{% block script %}
+         <script>
+            {% include 'static/js/HasChefCookedOrder.js' %}
+         </script>
+{% endblock script %}

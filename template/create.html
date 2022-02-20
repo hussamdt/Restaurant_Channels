@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+
+    <style>
+        body{
+            text-align: center;
+        }
+        .mybutton { color:#fff ; background-color:#337ab7 ; margin-top: 25px ; cursor:pointer ; border:1px solid transparent ;
+            padding:6px 12px ; font-size:14px ; line-height:1.5 ; border-radius:4px ;}
+
+        form{
+            display: inline-block;
+        }
+        input , select{
+            width:80%
+        }
+        textarea{
+            width: 80%;
+            height: 50px;
+        }
+
+
+
+    </style>
+
+{% endblock style %}
+{% block contents %}
+
+
+    <form  method="post"  enctype="multipart/form-data" class='cWWW' >
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+
+                <div style="color: #00f;">
+                    {{ field.label_tag }}
+                    <br>
+                </div>
+                {{ field }}
+                {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+                <br>
+                <br>
+
+            </div>
+        {% endfor %}
+
+        <button class="mybutton">submit</button>
+
+    </form>
+
+
+{% endblock contents %}

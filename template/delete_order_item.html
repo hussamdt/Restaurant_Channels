@@ -1,0 +1,26 @@
+<!--           127.0.0.1:8000/app_orders/menu/delete/<int:pk>/             -->
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+        <style>
+                {% include 'static/css/delete_order_item.css' %}
+        </style>
+{% endblock style %}
+{% block contents %}
+
+
+<form  method="post"  class='cWWW' >
+    {% csrf_token %}
+    <h3>Are you sure you want to delete the {{object.count}} {{ object.food_item.name }} ?</h3>
+    <button class="mybutton">Delete</button>
+</form>
+
+
+{% endblock contents %}
+
+
+{% block script %}
+        <script>
+                {% include 'static/js/delete_order_item.js' %}
+        </script>
+{% endblock script %}

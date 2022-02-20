@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+
+{% block title %}{% endblock title %}
+{% block style %}
+        <style>
+           table { border-collapse:collapse ; border-spacing:0 ; margin:auto ; width:80% ; border:1px solid #ddd ;}
+    
+            th , td { text-align:center ; padding:8px ;}
+                
+            tr:nth-child(even) { background-color:#f2f2f2 ;}
+
+            .mybutton { color:#fff ; background-color:#337ab7 ; margin-top: 25px ; cursor:pointer ; border:1px solid transparent ;
+                padding:6px 12px ; font-size:14px ; line-height:1.5 ; border-radius:4px ;}
+
+            .cWWW { overflow-x:auto ;}
+        </style>
+       
+{% endblock style %}
+{% block contents %}
+
+        <table class='cWWW'>
+        <thead>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>price</td>
+                <td>image</td>
+                <td> description</td>
+                <td>action</td>
+
+            </tr>
+        </thead>
+
+        {% for x in menu_items  %}
+        
+            <tr>
+                <td>{{x.id}}</td>
+
+
+                <td>{{x.name}}</td>
+                <td>{{x.price}}</td>
+
+                <td>
+                    <img src="/media/{{x.image}}" style="width:50px;height:50px" alt="there is no image found for this product">
+                </td>
+
+                <td>{{x.description}}</td>
+                <td>
+                    
+                    <a href="{% url 'app_orders:Menu_ItemUpdateView' x.pk %}">update</a>
+                    <a href="{% url 'app_orders:Menu_ItemDeleteView' x.pk%}">delete</a>
+
+                </td>
+
+                
+            </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+    <br>
+    <p style=" text-align:center">
+    <a href="{% url 'app_orders:Menu_ItemCreateView' %}" class="mybutton" > create </a>
+
+    </p>
+
+
+{% endblock contents %}
+
+
+
+   

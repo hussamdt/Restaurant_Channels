@@ -1,0 +1,98 @@
+<!--           127.0.0.1:8000/app_orders/menu/waiter-confirm-order/           -->
+
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+        <style>
+            {% include 'static/css/YesWaiterConfirmedOrderDeliveredOrder.css' %}
+        </style>
+{% endblock style %}
+{% block contents %}
+
+
+ <audio src="/media/bill.wav" id="notifcation" ></audio>
+ <h1>orders waiting to be confirmed</h1>
+    <div style="overflow-x:auto;">
+        <table>
+        <tr>
+            <th> table</th>
+            <th> time</th>
+            <th> items</th>
+            <th> deliver</th>
+        </tr> 
+        {% if not orders %}
+            </table >
+            <h1 style="text-align:center">No orders need to be accepted</h1> </td>
+
+        {% endif %}
+        {% for x in orders %}
+            <tr>
+                <td>{{x.table}}</td>
+                <td>{{x.time}}</td>
+                <td> 
+                    {% for i in x.order_food_item.all %}
+                        {{i.food_item.name}} : {{i.count}}
+                        <br>
+                    {% endfor %}
+                </td>
+
+                <td>
+                    <button class="mybutton"><a href="{% url 'app_orders:HasWaiterConfirmedOrder' x.pk %}" 
+                                                class='cSS'> confirm order</a></button>
+                </td>
+                
+            </tr>
+        {% endfor %}
+        </table>
+    </div> 
+
+
+     <h1>orders waiting to be delivered</h1>
+    <div style="overflow-x:auto;">
+        <table>
+        <tr>
+            <th> time</th>
+            <th> item</th>
+            <th>count</th>
+            <th> delivery</th>
+        </tr> 
+        {% if not deleviry %}
+            </table >
+            <h1 style="text-align:center">No orders need to be accepted</h1> </td>
+
+        {% endif %}
+        {% for x in deleviry %}
+            <tr>
+                {% comment %} <td>{{x.table}}</td> {% endcomment %}
+                <td>{{x.time}}</td>
+                <td> 
+                        {{x.food_item.name}}  
+                </td>
+                <td>{{x.count}}</td>
+                <td>
+                    <button class="mybutton"><a style="color:#fff;text-decoration: none;" href="{% url 'app_orders:HasWaiterDeliveredOrder' x.pk  %}"> delevery</a></button>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div> 
+
+
+
+{% endblock contents %}
+
+{% block script %}
+
+        <script>
+            {% include 'static/js/YesWaiterConfirmedOrderDeliveredOrder.js' %}
+        </script>
+
+
+        {% comment %} <script>
+            {% include 'static/js/YesWaiterConfirmedOrder.js' %}
+        </script>
+
+        <script>
+            {% include 'static/js/YesWaiterDeliveredOrder.js' %}
+        </script> {% endcomment %}
+{% endblock script %}

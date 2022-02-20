@@ -1,0 +1,28 @@
+body { background-color:#f1f5f8 ;}
+
+main { text-align:center ; width:600px ; margin:auto ;}
+
+.title { text-align:center ; margin-bottom:2rem ;}
+
+.title h2 { font-size:50px ;}
+
+.cTTTT { text-align:left ;}
+
+.underline { width:5rem ; height:0.25rem ; background:var(--clr-gold) ; margin-left:auto ; margin-right:auto ;}
+
+.oreder_item { position:relative ; height:50px ;}
+
+.order_name { position:absolute ; top:20px ; right:80% ;}
+
+.order_count { position:absolute ; top:20px ; right:60% ;}
+
+.order_item_price { position:absolute ; top:20px ; right:40% ;}
+
+.order_total_price { position:absolute ; top:20px ; right:20% ;}
+
+
+.mybutton { color:#fff ; background-color:#337ab7 ; margin-top: 25px ; cursor:pointer ; border:1px solid transparent ;
+            padding:6px 12px ; font-size:14px ; line-height:1.5 ; border-radius:4px ;}
+
+
+

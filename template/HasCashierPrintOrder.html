@@ -1,0 +1,63 @@
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+        <style>
+            {% include 'static/css/HasCashierPrintOrder.css' %}
+        </style>
+{% endblock style %}
+
+{% block contents %}
+    <main>
+        <div class="title">
+            <h2>  restaurant name</h2>
+            <div class="underline"></div>
+        </div>
+
+        <div class="oreder_item">
+            <div class="order_name">food name</div>
+            <div class="order_count">food count</div>
+            <div class="order_item_price">food price</div>
+            <div class="order_total_price">food total price</div>
+        </div>
+
+        {% for x in the_order.order_food_item.all %}
+            <div class="oreder_item">
+                <div class="order_name">{{x.food_item.name}}</div>
+                <div class="order_count">{{x.count}}</div>
+                <div class="order_item_price">{{x.food_item.price}}</div>
+                <div class="order_total_price custom_price">{% widthratio x.food_item.price 1 x.count %}</div>
+            </div>
+
+            <hr>
+        
+        {% endfor %}
+
+        <h3>Total : <span id="grand_total"></span></h3>
+        <button class="mybutton" id="checkout"> Print</button>
+
+
+    </main>
+
+{% endblock contents %}
+
+{% block script %}
+        <script>
+            {% include 'static/js/HasCashierPrintOrder.js' %}
+        </script>
+
+
+        <script>
+        document.getElementById('checkout').onclick = function () {
+            window.print()
+
+            fetch("{% url 'app_orders:ConfirmPaidByCashier' the_order.pk %}", {
+            method: "get", 
+            }).then(res => {
+                console.log("Request complete! response:", res);               
+                window.location.href = "{% url 'app_orders:YesCashierOrder' %}"
+            });
+
+
+        }
+    </script>
+{% endblock script %}

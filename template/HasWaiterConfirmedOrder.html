@@ -1,0 +1,42 @@
+<!--           127.0.0.1:8000/app_orders/menu/waiter-confirm-order-update/<int:pk>/            -->
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+         <style>
+            {% include 'static/css/HasWaiterConfirmedOrder.css' %}
+        </style>
+{% endblock style %}
+{% block contents %}
+
+
+ <form onsubmit="myFunction()" action="" method="POST" class='cMM'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="mybutton">submit</button>
+    </form>
+ 
+
+
+{% endblock contents %}
+
+{% block script %}
+        <script>
+
+            const chatSocket = new ReconnectingWebSocket(
+                'ws://'
+                + window.location.host
+                + '/ws/chat/'
+                + 'chief/'
+            );
+
+            function myFunction(){
+                chatSocket.onclose = function(e) {
+                    console.error('Chat socket closed unexpectedly');
+                }; 
+                chatSocket.send(JSON.stringify({
+                    'message': 'neworder'
+                }));    
+            }
+
+         </script>
+{% endblock script %}

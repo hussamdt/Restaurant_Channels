@@ -1,0 +1,50 @@
+       <!--           127.0.0.1:8000/app_orders/menu/chief-cook-order/            -->      
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block style %}
+        <style>
+            {% include 'static/css/YesChefCookedOrder.css' %}
+        </style>
+{% endblock style %}
+{% block contents %}
+
+ <audio src="/media/bill.wav" id="notifcation" ></audio>
+    <div class='cWWW' >
+        <table>
+        <tr>
+            {% comment %} <th>table</th> {% endcomment %}
+            <th>time</th>
+            <th>item</th>
+            <th>count</th>
+            <th>cooked</th>
+        </tr> 
+        {% if not orders %}
+            </table >
+            <h1 style="text-align:center">No orders need to be cooked</h1> </td>
+
+        {% endif %}
+        {% for x in orders %}
+            <tr>
+                {% comment %} <td>{{x.table}}</td> {% endcomment %}
+                <td>{{x.time}}</td>
+                <td> 
+                        {{x.food_item.name}}  
+                </td>
+                <td>{{x.count}}</td>
+                <td>
+                    <button class="mybutton"><a style="color:#fff;text-decoration: none;" href="{% url 'app_orders:HasChefCookedOrder' x.pk  %}"> cooked</a></button>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    
+
+
+{% endblock contents %}
+
+{% block script %}
+        <script>
+            {% include 'static/js/YesChefCookedOrder.js' %}
+        </script>
+{% endblock script %}

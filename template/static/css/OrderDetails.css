@@ -1,0 +1,15 @@
+h3 { position:relative ; height:30px ;}
+
+h3 .left { position:absolute ; top:0 ; left:20px ;}
+
+h3 .right { position:absolute ; top:0 ; right:20px ;}
+
+.cBBB { margin-top:5rem ; text-align:center ; width:300px ; margin:auto ;}
+
+.cFFF{ margin-top:-45px ; width:10px ; margin-left:75% ;}
+
+.cDDD { height:0px ;}
+
+.cNNN { text-align:center ;}
+
+.cYYY { color:#f00 ; text-align:center ;}
